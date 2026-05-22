@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: grocery-bot
+  threads:
+    virtual:
+      enabled: false
+  datasource:
+    url: jdbc:postgresql://localhost:5433/grocerybot
+    username: grocerybot
+    password: secretpassword
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+
+twilio:
+  account-sid: ${TWILIO_ACCOUNT_SID:your_account_sid_here}
+  auth-token: ${TWILIO_AUTH_TOKEN:your_auth_token_here}
+  from-number: ${TWILIO_FROM_NUMBER:whatsapp:+14155238886}
+  owner-number: ${TWILIO_OWNER_NUMBER:+919826403071}
+
+openai:
+  api-key: ${OPENAI_API_KEY:stub_key}
+  model: gpt-5.4-mini
+
+playwright:
+  headless: true
+  auth-dir: ./auth
+  geolocation:
+    lat: 12.9716
+    lon: 77.5946
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      scraper:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 60s
+  retry:
+    instances:
+      scraper:
+        max-attempts: 2
+        wait-duration: 2s

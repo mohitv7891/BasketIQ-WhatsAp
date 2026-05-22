@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: grocerybot-db
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: grocerybot
+      POSTGRES_USER: grocerybot
+      POSTGRES_PASSWORD: secretpassword
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U grocerybot" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
